@@ -60,6 +60,26 @@ export default function _charts(config) {
     },
 
     {
+      chartId: 'bcc-gclatency',
+      group: 'BCC/BPF',
+      title: 'gclatency',
+      tooltipText: 'GC latency in several high-level languages',
+      processor: simpleModel,
+      visualisation: Heatmap,
+      metricNames: [
+        'bcc.proc.ugc.latency'
+      ],
+      transforms: [
+        cumulativeTransform(),
+        ceiling(),
+        mapInstanceDomains('yAxisLabels'),
+        filterAboveMaxInstanceValue(),
+      ],
+      settingsComponent: HeatmapSettingsModal,
+      heatmap: { thresholds, colors },
+    },
+
+    {
       chartId: 'bcc-runqlat',
       group: 'BCC/BPF',
       title: 'runqlat',
