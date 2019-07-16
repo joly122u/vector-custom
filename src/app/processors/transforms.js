@@ -243,6 +243,23 @@ export function mapContainerNames (metricNames, containerNameResolver) {
 }
 
 /**
+ * Fixes instance field so as to make it start at 0. Instances should be
+ * correctly sorted though.
+ *
+ * @return {function} a transform function
+ */
+export function mimicCorrectInstanceInput () {
+  return function _mimicCorrectInstanceInput (metricInstances) {
+    if (! metricInstances.length >= 1) return metricInstances;
+    // TODO Utiliser reduce pour trouver le minimum
+    let firstInstance = metricInstances[0].instance;
+    return metricInstances.map(mi => {
+      return { ...mi, instance: mi.instance - firstInstance }
+    })
+  }
+}
+
+/**
  * Logs data at this point in the pipeline (does not actually transform the data)
  *
  * @param {string} message the log message to add to the console output

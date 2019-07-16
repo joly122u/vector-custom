@@ -18,6 +18,11 @@
 
 import simpleModel from '../processors/simpleModel'
 import {
+
+  // TODO Fix data so as not to need this
+  mimicCorrectInstanceInput,
+
+  log,
   customTitleAndKeylabel,
   divideByOnlyMetric,
   renameMetric,
@@ -50,6 +55,7 @@ export default function _charts(config) {
         'bcc.disk.all.latency'
       ],
       transforms: [
+        log("BIOLAT"),
         cumulativeTransform(),
         ceiling(),
         mapInstanceDomains('yAxisLabels'),
@@ -70,6 +76,9 @@ export default function _charts(config) {
         'bcc.proc.ugc.latency'
       ],
       transforms: [
+        log("BEFORE"),
+        mimicCorrectInstanceInput(),
+        log("AFTER"),
         cumulativeTransform(),
         ceiling(),
         mapInstanceDomains('yAxisLabels'),
