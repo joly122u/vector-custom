@@ -236,6 +236,34 @@ export default function _charts(config) {
     },
 
     {
+      chartId: 'bcc-http-analysis',
+      group: 'BCC/BPF',
+      title: 'HTTP analysis',
+      tooltipText: 'Data gathered through HTTP packets inspection',
+      processor: simpleModel,
+      visualisation: MultiTable,
+      metricNames: [
+        'bcc.proc.io.net.http.daddr',
+        'bcc.proc.io.net.http.dport',
+        'bcc.proc.io.net.http.laddr',
+        'bcc.proc.io.net.http.lport',
+        'bcc.proc.io.net.http.identifier',
+        'bcc.proc.io.net.http.param',
+      ],
+      transforms: [
+        onlyLatestValues(),
+        renameMetric({
+          'bcc.proc.io.net.http.dport': 'DEST PORT',
+          'bcc.proc.io.net.http.daddr': 'DEST ADDR',
+          'bcc.proc.io.net.http.lport': 'SRC PORT',
+          'bcc.proc.io.net.http.laddr': 'SRC ADDR',
+          'bcc.proc.io.net.http.identifier': 'METHODE/CODE',
+          'bcc.proc.io.net.http.param': 'PARAM/MESSAGE',
+        }),
+      ],
+    },
+
+    {
       chartId: 'bcc-execsnoop',
       group: 'BCC/BPF',
       title: 'execsnoop',
