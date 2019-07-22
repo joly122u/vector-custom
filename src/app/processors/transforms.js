@@ -243,6 +243,19 @@ export function mapContainerNames (metricNames, containerNameResolver) {
 }
 
 /**
+ * Take only the first value
+ * correctly sorted though.
+ *
+ * @return {function} a transform function
+ */
+export function takeFirst () {
+  return function _takeFirst (metricInstances) {
+    // if (! metricInstances.length <= 1) return metricInstances;
+    return metricInstances.filter(mi => mi.instance == 0);
+  }
+}
+
+/**
  * Fixes instance field so as to make it start at 0. Instances should be
  * correctly sorted though.
  *

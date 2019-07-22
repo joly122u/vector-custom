@@ -21,7 +21,9 @@ import {
 
   // TODO Fix data so as not to need this
   mimicCorrectInstanceInput,
+  takeFirst,
 
+  defaultTitleAndKeylabel,
   log,
   customTitleAndKeylabel,
   divideByOnlyMetric,
@@ -38,7 +40,9 @@ import MultiTable from '../components/Charts/MultiTable.jsx'
 import SimpleTable from '../components/Charts/SimpleTable.jsx'
 import Heatmap from '../components/Charts/Heatmap.jsx'
 import HeatmapSettingsModal from '../components/SettingsModals/HeatmapSettingsModal.jsx'
+import Chart from '../components/Charts/Chart.jsx'
 import { thresholds, colors } from '../components/Charts/cividis.js'
+import { integer } from '../processors/formats'
 
 export default function _charts(config) {
   if (!config.enableBcc) return []
@@ -233,6 +237,24 @@ export default function _charts(config) {
         divideByOnlyMetric(1000, [ 'MS' ]),
         mathValuesSelective(Math.round, mi => ['TX_KB', 'RX_KB', 'MS'].includes(mi.metric)),
       ],
+    },
+
+    {
+      chartId: 'bcc-tcplife-duration',
+      group: 'BCC/BPF',
+      title: 'TCP Connections (duration from tcplife)',
+      processor: simpleModel,
+      visualisation: Chart,
+      metricNames: [
+        'bcc.proc.io.net.tcp.duration',
+      ],
+      transforms: [
+        log(),
+        takeFirst(),
+        log(),
+        defaultTitleAndKeylabel(),
+      ],
+      yTickFormat: integer,
     },
 
     {
