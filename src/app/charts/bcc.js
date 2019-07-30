@@ -258,6 +258,40 @@ export default function _charts(config) {
     },
 
     {
+      chartId: 'bcc-dtls-analysis',
+      group: 'BCC/BPF',
+      title: 'DTLS analysis',
+      tooltipText: 'Data gathered through HTTP packets inspection',
+      processor: simpleModel,
+      visualisation: MultiTable,
+      metricNames: [
+        'bcc.proc.io.net.dtls.length',
+        'bcc.proc.io.net.dtls.sequence_number',
+        'bcc.proc.io.net.dtls.epoch',
+        'bcc.proc.io.net.dtls.version',
+        'bcc.proc.io.net.dtls.content_type',
+        'bcc.proc.io.net.dtls.dport',
+        'bcc.proc.io.net.dtls.daddr',
+        'bcc.proc.io.net.dtls.sport',
+        'bcc.proc.io.net.dtls.saddr',
+      ],
+      transforms: [
+        onlyLatestValues(),
+        renameMetric({
+          'bcc.proc.io.net.dtls.length': 'DTLS length',
+          'bcc.proc.io.net.dtls.sequence_number': 'DTLS seq number',
+          'bcc.proc.io.net.dtls.epoch': 'DTLS epoch',
+          'bcc.proc.io.net.dtls.version': 'DTLS version',
+          'bcc.proc.io.net.dtls.content_type': 'DTLS message type',
+          'bcc.proc.io.net.dtls.dport': 'Destination port',
+          'bcc.proc.io.net.dtls.daddr': 'Destination ip',
+          'bcc.proc.io.net.dtls.sport': 'Source port',
+          'bcc.proc.io.net.dtls.saddr': 'Source ip',
+        }),
+      ],
+    },
+
+    {
       chartId: 'bcc-http-analysis',
       group: 'BCC/BPF',
       title: 'HTTP analysis',
